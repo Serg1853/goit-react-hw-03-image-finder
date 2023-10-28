@@ -1,15 +1,14 @@
 import { ModalStyle, Overlay } from './Modal.styled';
-import { createPortal } from 'react-dom';
 import { Component } from 'react';
 
 
-const modalRoot = document.querySelector('#modal-root');
 
 export class Modal extends Component {
  
 
   componentDidMount = () => {
     window.addEventListener('keydown', this.onEscapeCloseModal);
+    
   };
 
   componentWillUnmount = () => {
@@ -33,13 +32,13 @@ export class Modal extends Component {
       selectedPhoto: { largeImageURL, tags },
     } = this.props;
 
-    return createPortal(
+    return (
       <Overlay onClick={this.onClickOverlay}>
         <ModalStyle>
           <img src={largeImageURL} alt={tags} />
         </ModalStyle>
-      </Overlay>,
-      modalRoot
+      </Overlay>
+      
     );
   }
 }
