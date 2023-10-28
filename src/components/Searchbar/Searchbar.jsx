@@ -1,25 +1,27 @@
-import { Component } from 'react';
-import { StyledSearchbar } from './StyledSearchbar';
+import {
+  SearchForm,
+  SearchFormButton,
+  SearchFormInput,
+  SearchbarStyle,
+} from './Searchbar.styled';
 
-export default class Searchbar extends Component {
-  state = {};
-  render() {
-    return (
-      <StyledSearchbar>
-        <form className="SearchForm">
-          <button type="submit" className="SearchForm-button">
-            <span className="SearchForm-button-label">Search</span>
-          </button>
 
-          <input
-            className="SearchForm-input"
-            type="text"
-            autocomplete="off"
-            autofocus
-            placeholder="Search images and photos"
-          />
-        </form>
-      </StyledSearchbar>
-    );
-  }
-}
+export const Searchbar = ({ onSubmitSearchBar }) => (
+  <SearchbarStyle>
+    <SearchForm onSubmit={onSubmitSearchBar}>
+      <SearchFormButton>
+        <span>Search</span>
+      </SearchFormButton>
+
+      <SearchFormInput
+        type="text"
+        name="search"
+        autoComplete="off"
+        autoFocus
+        placeholder="Search images and photos"
+      />
+    </SearchForm>
+  </SearchbarStyle>
+);
+
+

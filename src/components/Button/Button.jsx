@@ -1,9 +1,12 @@
-import React from 'react'
+import { ButtonStyle, WrapperButton } from './Button.styled';
 
-const Button = () => {
-  return (
-    <div>Button</div>
-  )
-}
 
-export default Button
+export const Button = ({ onClickRender }) => (
+  <WrapperButton>
+    <ButtonStyle type="button" onClick={onClickRender}>
+      Load more
+    </ButtonStyle>
+  </WrapperButton>
+);
+
+

@@ -1,34 +1,45 @@
-import React, { Component } from 'react'
-import { StyledModal } from './Styled'
+import { ModalStyle, Overlay } from './Modal.styled';
+import { createPortal } from 'react-dom';
+import { Component } from 'react';
 
-export default class Modal extends Component {
-  componentDidMount() {
-      window.addEventListener('keydown', this.handleKeyDown);
-      document.body.style.overflow = 'hidden';
-    }
-  componentWillUnmount() {
-      window.removeEventListener('keydown', this.handleKeyDown);
-      document.body.style.overflow = 'auto';
-  }
 
-  handleKeyDown = event => {
+const modalRoot = document.querySelector('#modal-root');
+
+export class Modal extends Component {
+ 
+
+  componentDidMount = () => {
+    window.addEventListener('keydown', this.onEscapeCloseModal);
+  };
+
+  componentWillUnmount = () => {
+    window.removeEventListener('keydown', this.onEscapeCloseModal);
+  };
+
+  onEscapeCloseModal = event => {
     if (event.code === 'Escape') {
-      this.props.closeModal();
+      this.props.onClose();
     }
   };
-  handleOveryaClick = event => {
+
+  onClickOverlay = event => {
     if (event.target === event.currentTarget) {
-      this.props.closeModal();
+      this.props.onClose();
     }
   };
+
   render() {
-    return (
-      <StyledModal onClick={this.handleOveryaClick}>
-        <div className="modal">
-          <img src="" alt="" />
-          <h2>Modal window</h2>
-        </div>
-      </StyledModal>
+    const {
+      selectedPhoto: { largeImageURL, tags },
+    } = this.props;
+
+    return createPortal(
+      <Overlay onClick={this.onClickOverlay}>
+        <ModalStyle>
+          <img src={largeImageURL} alt={tags} />
+        </ModalStyle>
+      </Overlay>,
+      modalRoot
     );
   }
 }
