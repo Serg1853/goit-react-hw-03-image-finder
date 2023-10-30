@@ -4,11 +4,12 @@ export class Modal extends Component {
  
   componentDidMount = () => {
     window.addEventListener('keydown', this.onEscapeCloseModal);
-    
+    document.body.style.overflow='hidden'
   };
 
   componentWillUnmount = () => {
     window.removeEventListener('keydown', this.onEscapeCloseModal);
+    document.body.style.overflow = 'auto';
   };
 
   onEscapeCloseModal = event => {
