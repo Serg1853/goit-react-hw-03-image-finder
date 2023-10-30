@@ -6,7 +6,7 @@ import { AppStyle } from './App.styled';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 import { Loader } from './Loader/Loader';
-import { Modal } from './Modal/Modal';
+
 
 export const paramsForNotify = {
   position: 'center-center',
@@ -18,19 +18,19 @@ const perPage = 12;
 
 export class App extends Component {
   state = {
-    search: '',
+    searchQuery: '',
     photos: [],
     page: 1,
     loading: false,
     btnLoadMore: false,
     showModal: false,
-    selectedPhoto: null,
+    selectedPhoto:null,
   };
 
   componentDidUpdate(_, prevState) {
-    const prevSearch = prevState.search;
+    const prevSearch = prevState.searchQuery;
     const prevPage = prevState.page;
-    const newSearch = this.state.search;
+    const newSearch = this.state.searchQuery;
     const newPage = this.state.page;
 
     if (prevSearch !== newSearch || prevPage !== newPage) {
@@ -38,10 +38,10 @@ export class App extends Component {
     }
   }
 
-  addPhotoPage = (search, page) => {
+  addPhotoPage = (searchQuery, page) => {
     this.setState({ loading: true });
 
-    fetchPhoto(search, page, perPage)
+    fetchPhoto(searchQuery, page, perPage)
       .then(data => {
         const { totalHits } = data;
         const totalPage = Math.ceil(data.totalHits / perPage);
@@ -91,61 +91,23 @@ export class App extends Component {
     }));
   };
 
-  onClickOpenModal = event => {
-    const { photos } = this.state;
-    const imageId = event.target.getAttribute('data-id');
-    const selectedPhoto = photos.find(photo => photo.id === Number(imageId));
-    this.setState({ selectedPhoto });
-
-    this.toggleModal();
+  handleFormSubmit = searchQuery => {
+    this.setState({ searchQuery });
+   
   };
-
-  onSubmitSearchBar = event => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const searchValue = form.search.value
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('+');
-
-    if (searchValue === '') {
-      Notify.info('Enter your request, please!', paramsForNotify);
-      return;
-    }
-
-    if (searchValue === this.state.search) {
-      Notify.info('Enter new request, please!', paramsForNotify);
-      return;
-    }
-
-    this.setState({
-      search: searchValue,
-      page: 1,
-      photos: [],
-    });
-
-     };
-
+ 
   render() {
-    const { loading, photos, btnLoadMore, showModal, selectedPhoto } =
-      this.state;
+    const { loading, photos, btnLoadMore } = this.state;
 
     return (
       <div>
-         <Searchbar onSubmitSearchBar={this.onSubmitSearchBar} />
+        <Searchbar onSubmit={this.handleFormSubmit} />
         {loading && <Loader />}
-          <AppStyle>
-          <ImageGallery
-            photos={photos}
-            onClickImageItem={this.onClickOpenModal}
-          />
+        <AppStyle>
+          <ImageGallery photos={photos} />
         </AppStyle>
         {photos.length !== 0 && btnLoadMore && (
           <Button onClickRender={this.onClickRender} />
-        )}
-        {showModal && (
-          <Modal selectedPhoto={selectedPhoto} onClose={this.toggleModal} />
         )}
       </div>
     );

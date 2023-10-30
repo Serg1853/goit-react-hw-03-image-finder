@@ -1,11 +1,7 @@
 import { ModalStyle, Overlay } from './Modal.styled';
 import { Component } from 'react';
-
-
-
 export class Modal extends Component {
  
-
   componentDidMount = () => {
     window.addEventListener('keydown', this.onEscapeCloseModal);
     
@@ -28,12 +24,10 @@ export class Modal extends Component {
   };
 
   render() {
-    const {
-      selectedPhoto: { largeImageURL, tags },
-    } = this.props;
+    const {largeImageURL, tags }= this.props;
 
     return (
-      <Overlay onClick={this.onClickOverlay}>
+      <Overlay onClick={this.onClickOverlay} >
         <ModalStyle>
           <img src={largeImageURL} alt={tags} />
         </ModalStyle>
