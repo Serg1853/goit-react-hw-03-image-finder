@@ -33,9 +33,11 @@ export class App extends Component {
     const newSearch = this.state.searchQuery;
     const newPage = this.state.page;
 
+   
     if (prevSearch !== newSearch || prevPage !== newPage) {
-      this.addPhotoPage(newSearch, newPage);
-    }
+    this.setState({ page: 1, photos: [], btnLoadMore: false });
+    this.addPhotoPage(newSearch, newPage);
+  }
   }
 
   addPhotoPage = (searchQuery, page) => {

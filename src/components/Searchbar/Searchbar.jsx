@@ -10,7 +10,7 @@ import { paramsForNotify } from 'components/App';
 
 export class Searchbar extends Component {
   state = {
-    searchQuery: ``,
+    searchQuery:'',
   };
 
   handleQueryChange = ({ currentTarget: { value } }) => {
@@ -26,10 +26,10 @@ export class Searchbar extends Component {
       return;
     }
 
-    if (searchQuery === this.state.search) {
-      Notify.info('Enter new request, please!', paramsForNotify);
-      return;
-    }
+    // if (searchQuery === this.state.searchQuery) {
+    //   Notify.info('Enter new request, please!', paramsForNotify);
+    //   return;
+    // }
     this.props.onSubmit(searchQuery);
     this.setState({ searchQuery: '' });
   };
